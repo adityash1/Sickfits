@@ -1,15 +1,15 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import GlobalStyles from "./globalStyles";
 import Header from "./Header";
+import GlobalStyles from "./globalStyles";
 
 const Page = ({ children }) => {
   return (
-    <div>
+    <>
       <GlobalStyles />
       <Header />
       <InnerStyles>{children}</InnerStyles>
-    </div>
+    </>
   );
 };
 
