@@ -1,11 +1,11 @@
-import Page from "@/components/Page"
+import Page from "@/components/Page";
 
 const MyApp = ({ Component, pageProps }) => {
   return (
     <Page>
-        <Component {...pageProps} /> 
+      <Component {...pageProps} />
     </Page>
-  )
-}
+  );
+};
 
-export default MyApp
+export default MyApp;
