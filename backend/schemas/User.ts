@@ -1,5 +1,6 @@
 import { list } from "@keystone-next/keystone/schema";
 import { text, password } from "@keystone-next/fields";
+import { MaybePromise } from "@keystone-next/types";
 
 export const User = list({
   fields: {
