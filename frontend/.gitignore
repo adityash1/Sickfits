@@ -31,3 +31,6 @@ yarn-error.log*
 # vercel
 .vercel
 .turbo
+
+#config
+./config.js
