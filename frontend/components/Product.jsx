@@ -4,6 +4,7 @@ import Title from "./styles/Title";
 import PriceTag from "./styles/PriceTag";
 import Link from "next/link";
 import Image from "next/image";
+import formatMoney from "@/lib/formatMoney";
 
 const Product = ({ product }) => {
   return (
@@ -17,7 +18,7 @@ const Product = ({ product }) => {
       <Title>
         <Link href={`/product/${product.id}`}> {product.name} </Link>
       </Title>
-      <PriceTag>{product.price}</PriceTag>
+      <PriceTag>{formatMoney(product.price)}</PriceTag>
     </ItemStyles>
   );
 };
