@@ -1,16 +1,4 @@
-import styled, { keyframes } from "styled-components";
-
-const loading = keyframes`
-  from {
-    background-position: 0 0;
-    /* rotate: 0; */
-  }
-
-  to {
-    background-position: 100% 100%;
-    /* rotate: 360deg; */
-  }
-`;
+import styled from "styled-components";
 
 const Form = styled.form`
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
@@ -45,6 +33,18 @@ const Form = styled.form`
     font-size: 2rem;
     font-weight: 600;
     padding: 0.5rem 1.2rem;
+  }
+  fieldset {
+    border: 0;
+    padding: 0;
+    &[disabled] {
+      opacity: 0.5;
+    }
+    &::before {
+      height: 10px;
+      content: "";
+      display: block;
+    }
   }
 `;
 
