@@ -38,17 +38,17 @@ export default function CreateProduct() {
     handleSubmit,
     reset,
     formState,
-    formState: { errors, isSubmitSuccessful, submittedData },
+    formState: { errors, isSubmitSuccessful },
   } = useForm();
 
-  const [createProduct, { loading, error }] = useMutation(
+  const [createProduct, { loading, error, data: mutatedData }] = useMutation(
     CREATE_PRODUCT_MUTATION,
     {
       refetchQueries: [{ query: ALL_PRODUCTS_QUERY }],
     }
   );
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
     createProduct({
       variables: {
@@ -59,16 +59,16 @@ export default function CreateProduct() {
       },
     }).then(() => {
       Router.push({
-        pathname: `/product/${data.id}`,
+        pathname: `/product/${mutatedData.createProduct.id}`,
       });
     });
   };
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset({ Image: "", Name: "", Price: "", Description: "" });
+      reset({});
     }
-  }, [formState, submittedData, reset]);
+  }, [formState, reset]);
 
   return (
     <>
@@ -81,9 +81,9 @@ export default function CreateProduct() {
             <input
               type="file"
               {...register("Image", { required: true })}
-              aria-invalid={errors.firstName ? "true" : "false"}
+              aria-invalid={errors.Image ? "true" : "false"}
             />
-            {errors.firstName?.type === "required" && (
+            {errors.Image?.type === "required" && (
               <p role="alert">Image is required</p>
             )}
           </label>
