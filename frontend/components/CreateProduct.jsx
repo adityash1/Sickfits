@@ -41,7 +41,7 @@ export default function CreateProduct() {
     formState: { errors, isSubmitSuccessful },
   } = useForm();
 
-  const [createProduct, { loading, error, data: mutatedData }] = useMutation(
+  const [createProduct, { loading, error }] = useMutation(
     CREATE_PRODUCT_MUTATION,
     {
       refetchQueries: [{ query: ALL_PRODUCTS_QUERY }],
@@ -50,17 +50,17 @@ export default function CreateProduct() {
 
   const onSubmit = async (data) => {
     console.log(data);
-    createProduct({
+    const res = await createProduct({
       variables: {
         name: data.Name,
         description: data.Description,
         price: Number(data.Price),
         image: data.Image[0],
       },
-    }).then(() => {
-      Router.push({
-        pathname: `/product/${mutatedData.createProduct.id}`,
-      });
+    });
+
+    Router.push({
+      pathname: `/product/${res.data.createProduct.id}`,
     });
   };
 
