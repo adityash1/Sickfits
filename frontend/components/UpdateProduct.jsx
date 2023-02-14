@@ -3,10 +3,9 @@ import gql from "graphql-tag";
 import DisplayError from "./ErrorMessage";
 import Form from "./styles/Form";
 import { useForm } from "react-hook-form";
-import { ALL_PRODUCTS_QUERY } from "./Products";
-import { useEffect } from "react";
 import Loader from "./styles/Loading";
 import Router from "next/router";
+import { useEffect } from "react";
 
 const SINGLE_PRODUCT_QUERY = gql`
   query SINGLE_PRODUCT_QUERY($id: ID!) {
@@ -38,6 +37,12 @@ const UPDATE_PRODUCT_MUTATION = gql`
   }
 `;
 
+function update(cache, payload) {
+  console.log(payload);
+  console.log("running the update function after edit");
+  cache.evict(cache.identify(payload.data.updateProduct));
+}
+
 export default function UpdateProduct({ id }) {
   const { data, error, loading } = useQuery(SINGLE_PRODUCT_QUERY, {
     variables: { id },
@@ -45,7 +50,8 @@ export default function UpdateProduct({ id }) {
 
   const [updateProduct, { error: updateError, loading: updateLoading }] =
     useMutation(UPDATE_PRODUCT_MUTATION, {
-      refetchQueries: [{ query: ALL_PRODUCTS_QUERY }],
+      variables: { id },
+      update,
     });
 
   const { register, handleSubmit, setValue } = useForm();
