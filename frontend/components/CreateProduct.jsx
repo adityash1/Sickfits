@@ -41,10 +41,14 @@ export default function CreateProduct() {
     formState: { errors, isSubmitSuccessful },
   } = useForm();
 
+  function update(cache, payload) {
+    cache.evict(cache.identify(payload.data.createProduct));
+  }
+
   const [createProduct, { loading, error }] = useMutation(
     CREATE_PRODUCT_MUTATION,
     {
-      refetchQueries: [{ query: ALL_PRODUCTS_QUERY }],
+      update,
     }
   );
 
