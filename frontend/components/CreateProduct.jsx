@@ -6,7 +6,6 @@ import Router from "next/router";
 import Loader from "./styles/Loading";
 import Form from "./styles/Form";
 import DisplayError from "./ErrorMessage";
-import { ALL_PRODUCTS_QUERY } from "./Products";
 
 const CREATE_PRODUCT_MUTATION = gql`
   mutation CREATE_PRODUCT_MUTATION(
