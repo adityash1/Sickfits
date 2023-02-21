@@ -25,6 +25,11 @@ const { withAuth } = createAuth({
   initFirstItem: {
     fields: ["name", "email", "password"],
   },
+  passwordResetLink: {
+    async sendToken(args) {
+      console.log(args);
+    },
+  },
 });
 
 export default withAuth(
@@ -34,6 +39,7 @@ export default withAuth(
         origin: [frontendURL],
         credentials: true,
       },
+      port: 3001,
     },
     db: {
       adapter: "mongoose",
