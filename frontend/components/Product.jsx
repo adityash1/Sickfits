@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import formatMoney from "@/lib/formatMoney";
 import DeleteProduct from "./DeleteProduct";
+import AddToCart from "./AddToCart";
 
 const Product = ({ product }) => {
   return (
@@ -32,6 +33,7 @@ const Product = ({ product }) => {
         >
           Edit ✏️
         </Link>
+        <AddToCart id={product.id} />
         <DeleteProduct id={product.id}>Delete</DeleteProduct>
       </div>
     </ItemStyles>
