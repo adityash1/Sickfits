@@ -9,6 +9,8 @@ import {
   statelessSessions,
 } from "@keystone-next/keystone/session";
 import { insertSeedData } from "./seed-data";
+import { sendPasswordResetEmail } from "./lib/mail";
+import { CartItem } from "./schemas/CartItem";
 
 const databaseURL = process.env.DATABASE_URL;
 const frontendURL = process.env.FRONTEND_URL;
@@ -27,7 +29,7 @@ const { withAuth } = createAuth({
   },
   passwordResetLink: {
     async sendToken(args) {
-      console.log(args);
+      await sendPasswordResetEmail(args.token, args.identity);
     },
   },
 });
@@ -55,6 +57,7 @@ export default withAuth(
       User,
       Product,
       ProductImage,
+      CartItem,
     }),
     ui: {
       isAccessAllowed: ({ session }) => !!session?.data,
