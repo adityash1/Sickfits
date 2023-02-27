@@ -2,6 +2,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import Cart from "./Cart";
 import Nav from "./Nav";
+import Search from "./Search";
 
 const Header = () => {
   return (
@@ -13,7 +14,7 @@ const Header = () => {
         <Nav />
       </div>
       <div className="sub-bar">
-        <p>Search</p>
+        <Search />
       </div>
       <Cart />
     </HeaderStyles>
