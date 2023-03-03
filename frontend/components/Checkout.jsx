@@ -8,6 +8,8 @@ import {
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import nProgress from "nprogress";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
 import SickButton from "./styles/SickButton";
 
 const CheckoutFormStyles = styled.form`
@@ -19,6 +21,20 @@ const CheckoutFormStyles = styled.form`
   grid-gap: 1rem;
 `;
 
+const CREATE_ORDER_MUTATION = gql`
+  mutation CREATE_ORDER_MUTATION($token: String!) {
+    checkout(token: $token) {
+      id
+      charge
+      total
+      items {
+        id
+        name
+      }
+    }
+  }
+`;
+
 const stripeLib = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
 
 function CheckoutForm() {
@@ -26,23 +42,36 @@ function CheckoutForm() {
   const [loading, setLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
+  const [checkout, { error: graphQLError }] = useMutation(
+    CREATE_ORDER_MUTATION
+  );
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+    console.log("We gotta do some work..");
+
     nProgress.start();
+
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement),
     });
     console.log(paymentMethod);
+
     if (error) {
       setError(error);
+      nProgress.done();
+      return; // stops the checkout from happening
     }
-    // 5. Send the token from step 3 to our keystone server, via a custom mutation!
-    // 6. Change the page to view the order
-    // 7. Close the cart
 
-    // 8. turn the loader off
+    const order = await checkout({
+      variables: {
+        token: paymentMethod.id,
+      },
+    });
+    console.log(`Finished with the order!!`);
+    console.log(order);
+
     setLoading(false);
     nProgress.done();
   }
@@ -50,6 +79,7 @@ function CheckoutForm() {
   return (
     <CheckoutFormStyles onSubmit={handleSubmit}>
       {error && <p style={{ fontSize: 12 }}>{error.message}</p>}
+      {graphQLError && <p style={{ fontSize: 12 }}>{graphQLError.message}</p>}
       <CardElement />
       <SickButton>Check Out Now</SickButton>
     </CheckoutFormStyles>
