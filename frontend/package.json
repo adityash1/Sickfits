@@ -15,6 +15,8 @@
     "@apollo/client": "^3.7.7",
     "@apollo/link-error": "2.0.0-beta.3",
     "@next/font": "13.1.6",
+    "@stripe/react-stripe-js": "^1.16.5",
+    "@stripe/stripe-js": "^1.48.0",
     "apollo-upload-client": "^17.0.0",
     "downshift": "^7.2.1",
     "graphql-tag": "^2.12.6",
